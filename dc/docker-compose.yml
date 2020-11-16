@@ -1,0 +1,26 @@
+version: "3.7"
+
+services: 
+    app:
+        image: nginx
+        networks: 
+            - "innernet"
+
+    balancer:
+        image: nginx
+        ports: 
+            - "80:80"
+        networks: 
+            - "innernet"
+            - "hostnet"
+        volumes: 
+           - './nginx.conf:/etc/nginx/nginx.conf'
+        depends_on: 
+            - app
+
+networks: 
+    innernet:
+      driver: bridge
+      internal: true
+    hostnet:
+      driver: bridge
